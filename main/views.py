@@ -20,7 +20,7 @@ def get_most_popular_words_dict():
     for index, article in enumerate(subreddit_obj.get_hot(limit=4), start=1):
         comments_str = ' '.join([comment.body for comment in article.comments if hasattr(comment, 'body')])
         comments.append(comments_str)
-        words_count.append({'words': dict(get_words_count(comments_str)), 'index': index})
+        words_count.append({'words': dict(get_words_count(comments_str)), 'index': 'Article {}'.format(index)})
 
     popular_words = [word[0] for word in get_words_count(' '.join(comments))[:10]]
 
