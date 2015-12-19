@@ -17,7 +17,7 @@ def get_most_popular_words_dict():
     words_count = []
 
     subreddit_obj = r.get_subreddit('news')
-    for index, article in enumerate(subreddit_obj.get_hot(limit=4), start=1):
+    for index, article in enumerate(subreddit_obj.get_hot(limit=3), start=1):
         comments_str = ' '.join([comment.body for comment in article.comments if hasattr(comment, 'body')])
         comments.append(comments_str)
         words_count.append({'words': dict(get_words_count(comments_str)), 'index': 'Article {}'.format(index)})
