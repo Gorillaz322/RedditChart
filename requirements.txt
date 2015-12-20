@@ -10,3 +10,4 @@ wsgiref==0.1.2
 bash==0.4
 praw==3.3.0
 gunicorn==19.4.1
+requests==2.8.1

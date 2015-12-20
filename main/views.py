@@ -2,6 +2,7 @@ import logging
 from app import app
 from flask import render_template
 import re
+import requests
 import json
 from collections import defaultdict
 import main.config as config
@@ -9,8 +10,8 @@ import praw
 logger = logging.getLogger(__name__)
 
 
-@app.route('/')
-def get_most_popular_words_dict():
+@app.route('/line')
+def line_chart():
 
     r = praw.Reddit(user_agent=config.USER_AGENT)
     comments = []
@@ -39,7 +40,32 @@ def get_most_popular_words_dict():
         'words_info': words
     }
 
-    return render_template('chart.html', data=json.dumps(data))
+    return render_template('LineChart.html', data=json.dumps(data))
+
+@app.route('/bar')
+def bar_chart():
+    client = praw.Reddit(user_agent=config.USER_AGENT)
+
+    # get popular subreddits
+    r = json.loads(requests.get('https://www.reddit.com/subreddits/.json', headers=config.HEADERS).content)
+    subreddits_info = []
+
+    for s in r['data']['children'][:4]:
+        subreddit_info = {}
+
+        subreddit_name = s['data']['display_name']
+        subreddit_obj = client.get_subreddit(subreddit_name)
+        subreddit_info['name'] = subreddit_name
+        subreddit_info['subscribers'] = s['data']['subscribers']
+
+        comment_texts = []
+        for article in subreddit_obj.get_hot(limit=1):
+            comment_texts.extend([comment.body for comment in article.comments if hasattr(comment, 'body')])
+        subreddit_info['words'] = get_words_count(' '.join(comment_texts))[:10]
+
+        subreddits_info.append(subreddit_info)
+
+    return render_template('BarChart.html', data=json.dumps(subreddits_info))
 
 
 def get_words_count(text):

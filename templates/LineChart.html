@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+</head>
+
+<body>
+</body>
+<script src="{{ url_for('static', filename='js/jquery-1.11.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/highcharts.js') }}"></script>
+<script src="{{ url_for('static', filename='js/exporting.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<script>
+    lineChartHandler({{ data|safe }});
+</script>

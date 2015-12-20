@@ -7,10 +7,12 @@
 </body>
 <script src="{{ url_for('static', filename='js/jquery-1.11.0.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/highcharts.js') }}"></script>
-<script src="{{ url_for('static', filename='js/exporting.js') }}"></script>
+<script src="{{ url_for('static', filename='js/highcharts_data.js') }}"></script>
+<script src="{{ url_for('static', filename='js/highcharts_drilldown.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lodash.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <script>
-    chartHandler2({{ data|safe }});
+    barChartHandler({{ data|safe }});
 </script>
